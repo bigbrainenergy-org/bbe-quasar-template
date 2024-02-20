@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  data-bbe:
+    build: ./db
+    restart: unless-stopped
+    volumes:
+      - bbe-app-data:/var/lib/couchdb/data
+      - ./keygen/keypair/ini:/opt/couchdb/etc/local.d
+    environment:
+      COUCHDB_USER: couchdbuser
+      POSTGRES_PASSWORD: couchdbpassword
+    network: internal_network
+  auth-bbe:
+    dockerfile: auth/Dockerfile
+    ports: ""
+
+volumes:
+  bbe-app-data: {}
