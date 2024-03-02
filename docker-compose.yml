@@ -12,8 +12,15 @@ services:
       POSTGRES_PASSWORD: couchdbpassword
     network: internal_network
   auth-bbe:
-    dockerfile: auth/Dockerfile
-    ports: ""
+    build: ./user-manager
+    restart: unless-stopped
+    volumes:
+      - ./keygen/keypair:/etc/user-manager/keypair
+    depends_on:
+      - data-bbe
+    network: internal_network
+    ports:
+      - "4000:4000"
 
 volumes:
   bbe-app-data: {}
